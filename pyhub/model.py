@@ -11,33 +11,22 @@ import sqlite3
 DATABASE_PATH = os.path.join(os.path.dirname(__file__), 'test.db')
 
 conn = sqlite3.connect(DATABASE_PATH)
-print "Opened database successfully"
+# print "Opened database successfully"
+# conn.execute('''CREATE TABLE blog
+#        (id INTEGER PRIMARY KEY,
+#        name        CHAR(100)    NOT NULL,
+#        url         CHAR(500)     NOT NULL,
+#        type        CHAR(10));''')
+# print "Table created successfully"
 
-conn.execute('''CREATE TABLE COMPANY
-       (ID INT PRIMARY KEY     NOT NULL,
-       NAME           TEXT    NOT NULL,
-       AGE            INT     NOT NULL,
-       ADDRESS        CHAR(50),
-       SALARY         REAL);''')
-print "Table created successfully"
-
-conn.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
-      VALUES (1, 'Paul', 32, 'California', 20000.00 )")
-
-conn.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
-      VALUES (2, 'Allen', 25, 'Texas', 15000.00 )");
-
-conn.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
-      VALUES (3, 'Teddy', 23, 'Norway', 20000.00 )")
-
-conn.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
-      VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 )")
+conn.execute("INSERT INTO blog (name,url,type) \
+      VALUES ('Paul', 'http://www.baidu.com', 'California')")
 
 conn.commit()
-cursor = conn.execute("SELECT id, name, address, salary  from COMPANY")
+cursor = conn.execute("SELECT id, name, url, type  from blog")
 for row in cursor:
    print "ID = ", row[0]
    print "NAME = ", row[1]
-   print "ADDRESS = ", row[2]
-   print "SALARY = ", row[3], "\n"
+   print "URL = ", row[2]
+   print "TYPE = ", row[3], "\n"
 conn.close()
