@@ -1,11 +1,11 @@
 # PyHub
 Python技术资源、信息的一个导航页，还在开发中。。。
 
-http://www.pyhub.top
+http://pyhub.xueweihan.com
 
 ## 设计思路
 ### 网站整体
-分为三个页面：  
+分为三个页面：    
 1. Blog
 2. GitHub
 3. 后台
