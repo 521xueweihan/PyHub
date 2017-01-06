@@ -33,12 +33,9 @@ Mange Page:
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <td><a href="https://www.the5fire.com">the5fire</a></td>
-    <td>关注python、vim、linux、web开发和互联网--life is short, we need python.</td>
-    <td>online</td>
-    <td>update<br> ban</td>
-  </tr>
+  {% for blog in blogs %}
+    {{ blog }}
+  {% endfor %}
   <tr>
     <td><a href="https://www.the5fire.com">the5fire</a></td>
     <td>关注python、vim、linux、web开发和互联网--life is short, we need python.</td>
