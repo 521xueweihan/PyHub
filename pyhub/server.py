@@ -12,7 +12,7 @@ from flask import Flask, render_template, redirect, url_for
 
 app = Flask(__name__)
 app.static_folder = path.join(path.dirname(__file__), 'static')
-app.debug = False
+app.debug = True
 
 
 @app.route('/')
@@ -27,6 +27,9 @@ def manage():
 
 @app.route('/manage/create')
 def create():
+    title = requests
+    blog = Blog()
+
     pass
 
 @app.route('/manage/update')

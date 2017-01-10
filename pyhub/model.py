@@ -5,7 +5,6 @@
 #   Date    :   16/9/30 下午11:05
 #   Desc    :   数据层
 import os
-import sqlite3
 
 from peewee import Model, SqliteDatabase, CharField, TextField, \
     DateTimeField, IntegerField
@@ -26,6 +25,8 @@ class Blog(BaseModel):
     create_time = DateTimeField()
     update_time = DateTimeField()
     status = IntegerField()
+
+database.create_tables([Blog], safe=True)
 
 # print "Opened database successfully"
 # conn.execute('''CREATE TABLE blog
