@@ -6,7 +6,7 @@
 #   Desc    :   python-blog-page
 from os import path
 
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, URL
@@ -34,14 +34,14 @@ def home():
 def test():
     return render_template('test.html')
 
-@app.route('/manage')
+@app.route('/manage/')
 def manage():
-    blogs = Blog.select().where(Blog.status == 1)
+    blogs = Blog.select()
     form = BlogForm()
     return render_template('manage.html', blogs=blogs, form=form)
 
 
-@app.route('/manage/create', methods=['POST'])
+@app.route('/manage/create/', methods=['POST'])
 def create():
     blog = Blog()
     form = BlogForm()
@@ -53,13 +53,23 @@ def create():
         return redirect('/manage')
 
 
-@app.route('/manage/update', methods=['GET', 'POST'])
+@app.route('/manage/update/', methods=['GET', 'POST'])
 def update():
     pass
 
-@app.route('/manage/delete', methods=['POST'])
+@app.route('/manage/status/', methods=['GET'])
 def delete():
-    pass
+    blog_id = request.args.get('blog_id')
+
+    if not blog_id:
+        return redirect('/manage')
+    blog = Blog().get(Blog.blog_id == blog_id)
+    if blog.status == 1:
+        blog.status = 0
+    else:
+        blog.status = 1
+    blog.save()
+    return redirect('/manage')
 
 #
 # @app.route('/manage')

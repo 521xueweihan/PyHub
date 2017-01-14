@@ -31,7 +31,7 @@ class BaseModel(Model):
 
 
 class Blog(BaseModel):
-    id = CharField(default=next_id(), primary_key=True)
+    blog_id = CharField(default=next_id())
     name = CharField()
     url = CharField()
     description = TextField()

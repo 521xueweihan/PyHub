@@ -11,7 +11,7 @@
         body{ width:90%; max-width: 960px; background:#fff; margin:3em auto 0; padding-top:2em;border:1px solid #ddd;border-width:0 1px;}
         pre{white-space:pre-wrap;}
         #wrapper{ padding:5% 10%; position:relative;}
-        i.serif{ color:green; }
+        i.serif{ color:green;}
         l.serif{ color:red; }
         @media only screen and (max-width: 640px) {
           table{ word-break:break-all;word-wrap:break-word;font-size:12px; }
@@ -39,9 +39,17 @@ Mange Page:
             <td><a href="{{ blog.url }}">{{ blog.name }}</a></td>
             <td>{{ blog.description }}</td>
               {% if blog.status %}
-                <td><i class="serif">Online</i></td>
+                <td>
+                    <i class="serif">
+                        <a href="/manage/status?blog_id={{ blog.blog_id}}">Online</a>
+                    </i>
+                </td>
               {% else %}
-                <td><span style="color: red"><strong>offline</strong></span></td>
+                <td>
+                    <l class="serif">
+                        <a href="/manage/status?blog_id={{ blog.blog_id}}">Offline</a>
+                    </l>
+                </td>
               {% endif %}
             <td><span class="serif">Update</span></td>
           </tr>
