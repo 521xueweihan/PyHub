@@ -5,6 +5,9 @@
 #   Date    :   16/9/30 下午11:05
 #   Desc    :   数据层
 import os
+import random
+import uuid
+from datetime import datetime
 
 from peewee import Model, SqliteDatabase, CharField, TextField, \
     DateTimeField, IntegerField
@@ -13,37 +16,27 @@ DATABASE_PATH = os.path.join(os.path.dirname(__file__), 'test.db')
 database = SqliteDatabase(DATABASE_PATH)
 
 
+def next_id():
+    """
+    使用random函数随机生成一个长度为10的纯数字字符串
+    """
+    chars = '0123456789'
+    uid = random.sample(chars, 8)
+    return int(''.join(uid))
+
+
 class BaseModel(Model):
     class Meta:
         database = database
 
 
 class Blog(BaseModel):
+    id = CharField(default=next_id(), primary_key=True)
     name = CharField()
     url = CharField()
-    description = CharField()
-    create_time = DateTimeField()
-    update_time = DateTimeField()
-    status = IntegerField()
+    description = TextField()
+    create_time = DateTimeField(default=datetime.now())
+    update_time = DateTimeField(default=datetime.now())
+    status = IntegerField(default=0)
 
 database.create_tables([Blog], safe=True)
-
-# print "Opened database successfully"
-# conn.execute('''CREATE TABLE blog
-#        (id INTEGER PRIMARY KEY,
-#        name        CHAR(100)    NOT NULL,
-#        url         CHAR(500)     NOT NULL,
-#        type        CHAR(10));''')
-# print "Table created successfully"
-
-# conn.execute("INSERT INTO blog (name,url,type) \
-#       VALUES ('Paul', 'http://www.baidu.com', 'California')")
-#
-# conn.commit()
-# cursor = conn.execute("SELECT id, name, url, type  from blog")
-# for row in cursor:
-#    print "ID = ", row[0]
-#    print "NAME = ", row[1]
-#    print "URL = ", row[2]
-#    print "TYPE = ", row[3], "\n"
-# conn.close()
