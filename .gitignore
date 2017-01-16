@@ -55,6 +55,7 @@ target/
 
 
 # Local settings
+config.py
 
 # vim
 *.swp
