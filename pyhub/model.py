@@ -4,15 +4,13 @@
 #   Author  :   XueWeiHan
 #   Date    :   16/9/30 下午11:05
 #   Desc    :   数据层
-import os
 import random
-import uuid
 from datetime import datetime
 
 from peewee import Model, SqliteDatabase, CharField, TextField, \
     DateTimeField, IntegerField
 
-DATABASE_PATH = os.path.join(os.path.dirname(__file__), 'test.db')
+from config import DATABASE_PATH
 database = SqliteDatabase(DATABASE_PATH)
 
 
@@ -31,9 +29,9 @@ class BaseModel(Model):
 
 
 class Blog(BaseModel):
-    blog_id = CharField(default=next_id())
-    name = CharField()
-    url = CharField()
+    blog_id = CharField(unique=True, default=next_id())
+    name = CharField(unique=True)
+    url = CharField(unique=True)
     description = TextField()
     create_time = DateTimeField(default=datetime.now())
     update_time = DateTimeField(default=datetime.now())

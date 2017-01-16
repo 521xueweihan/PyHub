@@ -3,78 +3,107 @@
 #
 #   Author  :   XueWeiHan
 #   Date    :   16/3/24 下午12:43
-#   Desc    :   python-blog-page
-from os import path
+#   Desc    :   PyHub
+from datetime import datetime
 
-from flask import Flask, render_template, redirect, url_for, request
-from flask_wtf import FlaskForm
+from peewee import fn, IntegrityError
+from flask import Flask, render_template, redirect, request, flash, abort
+from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField
-from wtforms.validators import DataRequired, URL
+from wtforms.validators import InputRequired, URL
+from config import DEBUG, SECRET_KEY, STATIC_PATH
 
 from model import Blog
 
 
 app = Flask(__name__)
-app.static_folder = path.join(path.dirname(__file__), 'static')
-app.debug = True
-app.secret_key = 'asdfsfsadf'
+app.static_folder = STATIC_PATH
+app.debug = DEBUG
+app.secret_key = SECRET_KEY
+csrf = CSRFProtect()
+csrf.init_app(app)
 
 
 class BlogForm(FlaskForm):
-    name = StringField('name', validators=[DataRequired()])
+    name = StringField('name', validators=[InputRequired()])
     url = StringField('url', validators=[URL()])
     description = StringField('description')
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 @app.route('/')
 def home():
-    return render_template('blog.html')
+    all_blog = Blog.select().where(Blog.status == 1).order_by(fn.Random())
+    return render_template('blog.html', blogs=all_blog)
 
-@app.route('/test')
-def test():
-    return render_template('test.html')
 
 @app.route('/manage/')
 def manage():
-    blogs = Blog.select()
+    all_blog = Blog.select().order_by(Blog.create_time)
     form = BlogForm()
-    return render_template('manage.html', blogs=blogs, form=form)
+    return render_template('manage.html', blogs=all_blog, form=form)
 
 
 @app.route('/manage/create/', methods=['POST'])
 def create():
-    blog = Blog()
     form = BlogForm()
     if form.validate_on_submit():
-        blog.name = form.name.data
-        blog.url = form.url.data
-        blog.description = form.description.data
-        blog.save()
-        return redirect('/manage')
-
-
-@app.route('/manage/update/', methods=['GET', 'POST'])
-def update():
-    pass
-
-@app.route('/manage/status/', methods=['GET'])
-def delete():
-    blog_id = request.args.get('blog_id')
-
-    if not blog_id:
-        return redirect('/manage')
-    blog = Blog().get(Blog.blog_id == blog_id)
-    if blog.status == 1:
-        blog.status = 0
+        try:
+            blog = Blog().create(
+                name=form.name.data, url=form.url.data, description=form.description.data)
+            flash(u'创建 {name} 成功'.format(name=blog.name))
+        except IntegrityError:
+            flash(u'创建 {name} 失败，该条目已存在'.format(name=form.name.data), 'error')
     else:
-        blog.status = 1
-    blog.save()
+        flash(u'创建失败，参数错误', 'error')
     return redirect('/manage')
 
-#
-# @app.route('/manage')
-# def manage():
-#     return render_template('manage.html')
+
+@app.route('/manage/update/<int:blog_id>', methods=['GET', 'POST'])
+def update(blog_id):
+    blog = Blog.get(Blog.blog_id == blog_id)
+    if not blog:
+        abort(400)
+    form = BlogForm(name=blog.name, url=blog.url, description=blog.description)
+
+    if request.method == 'GET':
+        return render_template('update.html', blog=blog, form=form)
+    else:
+        if form.validate_on_submit():
+            try:
+                blog.name = form.name.data
+                blog.url = form.url.data
+                blog.description = form.description.data
+                blog.update_time = datetime.now()
+                blog.save()
+                flash(u'更新 {name} 成功'.format(name=form.name.data))
+                return redirect('/manage')
+            except IntegrityError:
+                flash(u'更新 {name} 失败，该条目已存在'.format(name=form.name.data), 'error')
+                return render_template('update.html', blog=blog, form=form)
+        else:
+            flash(u'更新失败，参数错误', 'error')
+            return render_template('update.html', blog=blog, form=form)
+
+
+@app.route('/manage/status/<int:blog_id>', methods=['GET'])
+def status(blog_id):
+    blog = Blog.get(Blog.blog_id == blog_id)
+    if not blog:
+        abort(400)
+    if blog.status:
+        blog.status = 0
+        flash(u'{name}下线成功'.format(name=blog.name))
+    else:
+        blog.status = 1
+        flash(u'{name}上线成功'.format(name=blog.name))
+    blog.update_time = datetime.now()
+    blog.save()
+    return redirect('/manage')
 
 if __name__ == '__main__':
     app.run(port=5000)

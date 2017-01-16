@@ -55,7 +55,6 @@ target/
 
 
 # Local settings
-config.py
 
 # vim
 *.swp
@@ -65,3 +64,6 @@ config.py
 
 # mac os
 .DS_Store
+
+# db file
+*.db
