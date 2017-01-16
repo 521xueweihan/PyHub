@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% block head %}
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, minimal-ui">
+  <link rel="stylesheet" href={{ url_for('static', filename='css/typo.css') }}/>
+  <title>{% block title %}{% endblock %} - PyHub</title>
+  <style>
+    code{ color:#1abc9c; }
+    html{ background:#eee; }
+    body{ width:90%; max-width: 960px; background:#fff; margin:3em auto 0; padding-top:2em;border:1px solid #ddd;border-width:0 1px;}
+    pre{white-space:pre-wrap;}
+
+    i.serif{ color:#1abc9c; }
+    :-moz-any(h1, h2, h3, h4, h5, h5) i.serif{ text-transform: capitalize; }
+    i.serif:hover{ color:inherit; }
+
+    #wrapper{ padding:5% 10%; position:relative;}
+    #tagline{ color:#999; font-size:1em; margin:-2em 0 2em; padding-bottom:2em; border-bottom:3px double #eee; }
+    #fork{ position:fixed; top:0; right:0; _position:absolute; }
+    #table{ margin-bottom:2em; color:#888; }
+    #github iframe{ display:inline;margin-right:1em; }
+
+    @media only screen and (max-width: 640px) {
+      table{ word-break:break-all;word-wrap:break-word;font-size:12px; }
+      .typo table th, .typo table td, .typo-table th, .typo-table td .typo table caption {
+        padding: 0.5em;
+      }
+      #fork{ display:none; }
+    }
+  </style>
+  {% endblock %}
+</head>
+<body>
+
+<div id="wrapper" class="typo typo-selection">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- #wrapper -->
+<a href="https://github.com/521xueweihan/pyhub" id="fork">
+  <img alt="" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Blog Manage{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <meta name="description" content="Python独立博客管理页"/>
+{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="/manage/update/{{ blog.blog_id }}">
+    {{ form.csrf_token }}
+    {{ form.name.label }} {{ form.name(size=20) }}
+    {{ form.url.label }} {{ form.url(size=20) }}
+    {{ form.description.label }} {{ form.description(size=20) }}
+    <input type="submit" value="Go">
+</form>
+{% endblock %}
