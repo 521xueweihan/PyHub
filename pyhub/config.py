@@ -7,6 +7,6 @@
 from os import path
 
 DEBUG = True
-DATABASE_PATH = path.join(path.dirname(__file__), 'test.db')
+DATABASE_PATH = path.join(path.dirname(__file__), 'blog.db')
 SECRET_KEY = '2-123-102opi1po2i'
 STATIC_PATH = path.join(path.dirname(__file__), 'static')

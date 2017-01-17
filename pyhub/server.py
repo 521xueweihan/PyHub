@@ -4,16 +4,18 @@
 #   Author  :   XueWeiHan
 #   Date    :   16/3/24 下午12:43
 #   Desc    :   PyHub
+import uuid
 from datetime import datetime
 
 from peewee import fn, IntegrityError
+from playhouse.flask_utils import FlaskDB
 from flask import Flask, render_template, redirect, request, flash, abort
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField
 from wtforms.validators import InputRequired, URL
 from config import DEBUG, SECRET_KEY, STATIC_PATH
 
-from model import Blog
+from model import Blog, database
 
 
 app = Flask(__name__)
@@ -22,6 +24,7 @@ app.debug = DEBUG
 app.secret_key = SECRET_KEY
 csrf = CSRFProtect()
 csrf.init_app(app)
+FlaskDB(app, database)
 
 
 class BlogForm(FlaskForm):
@@ -43,7 +46,7 @@ def home():
 
 @app.route('/manage/')
 def manage():
-    all_blog = Blog.select().order_by(Blog.create_time)
+    all_blog = Blog.select().order_by(Blog.create_time.desc())
     form = BlogForm()
     return render_template('manage.html', blogs=all_blog, form=form)
 
@@ -53,8 +56,9 @@ def create():
     form = BlogForm()
     if form.validate_on_submit():
         try:
-            blog = Blog().create(
-                name=form.name.data, url=form.url.data, description=form.description.data)
+            blog = Blog.create(
+                blog_id=uuid.uuid4(), name=form.name.data, url=form.url.data,
+                description=form.description.data)
             flash(u'创建 {name} 成功'.format(name=blog.name))
         except IntegrityError:
             flash(u'创建 {name} 失败，该条目已存在'.format(name=form.name.data), 'error')
@@ -63,7 +67,7 @@ def create():
     return redirect('/manage')
 
 
-@app.route('/manage/update/<int:blog_id>', methods=['GET', 'POST'])
+@app.route('/manage/update/<blog_id>', methods=['GET', 'POST'])
 def update(blog_id):
     blog = Blog.get(Blog.blog_id == blog_id)
     if not blog:
@@ -90,7 +94,7 @@ def update(blog_id):
             return render_template('update.html', blog=blog, form=form)
 
 
-@app.route('/manage/status/<int:blog_id>', methods=['GET'])
+@app.route('/manage/status/<blog_id>', methods=['GET'])
 def status(blog_id):
     blog = Blog.get(Blog.blog_id == blog_id)
     if not blog:
