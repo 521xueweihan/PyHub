@@ -13,6 +13,7 @@ from flask import Flask, render_template, redirect, request, flash, abort
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField
 from wtforms.validators import InputRequired, URL
+from wtforms.widgets import TextArea
 from config import DEBUG, SECRET_KEY, STATIC_PATH
 
 from model import Blog, database
@@ -30,7 +31,7 @@ FlaskDB(app, database)
 class BlogForm(FlaskForm):
     name = StringField('name', validators=[InputRequired()])
     url = StringField('url', validators=[URL()])
-    description = StringField('description')
+    description = StringField('description', widget=TextArea())
 
 
 @app.errorhandler(404)

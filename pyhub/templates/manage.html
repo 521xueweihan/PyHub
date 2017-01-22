@@ -21,7 +21,7 @@
     {{ form.csrf_token }}
     {{ form.name.label }} {{ form.name(size=20) }}
     {{ form.url.label }} {{ form.url(size=20) }}
-    {{ form.description.label }} {{ form.description(size=20) }}
+    {{ form.description.label }} {{form.description(cols="20", rows="10") }}
     <input type="submit" value="Go">
 </form>
 

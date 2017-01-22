@@ -27,136 +27,16 @@
   <thead>
   <tr>
     <th>Blog</th>
-    <th></th>
-    <th>About</th>
+    <th>Info</th>
   </tr>
   </thead>
   <tbody>
+  {% for blog in blogs %}
   <tr>
-    <td><a href="http://www.firefoxbug.com/">firefoxbug</a></td>
-    <td></td>
-    <td></td>
+    <td><a href="{{ blog.url }}">{{ blog.name }}</a></td>
+    <td>{{ blog.description }}</td>
   </tr>
-  <tr>
-    <td><a href="http://blog.psjay.com/">PSJay</a></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://www.doraemonext.com/">DORAEMONEXT</a></td>
-    <td>微信公众平台 Python 开发包作者，自强学堂网站 Web 组后台负责人</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://kaito-kidd.com/">Kaito</a></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://selfboot.cn/">selfboot</a></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="https://neo1218.github.io/">neo1218</a></td>
-    <td>90后，武大Pythoner</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://xianglong.me/">降龙</a></td>
-    <td>90后，搜狐Pythoner</td>
-    <td><a href="http://xianglong.me/about">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://kissg.me/">kissg</a></td>
-    <td>90后，浙大Pythoner</td>
-    <td><a href="http://kissg.me/about/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://platinhom.github.io/">Hom</a></td>
-    <td>目前在美国留学，很厉害的Pythoner，90后（待定）</td>
-    <td><a href="http://platinhom.github.io/pages/about/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://voidy.net/">Voidy</a></td>
-    <td>90后Pythoner（待定）</td>
-    <td><a href="http://voidy.net/about/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://mozillazg.com/">Mozillazg</a></td>
-    <td>90后Pythoner</td>
-    <td><a href="https://mozillazg.com/2014/10/pages/about-me.html">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://wuchong.me/">Jark</a></td>
-    <td>90后Pythoner，现阿里中间件Pythoner，前端也很厉害</td>
-    <td><a href="http://wuchong.me/about/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://blog.binux.me/">Binux</a></td>
-    <td>已经肉身翻墙成功的Pythonista，<i class="serif">pyspider</i> 项目发起者（目前该项目7000+star）</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="https://blog.windrunner.info/tool/gitbook-tutorial.html">不破不立</a></td>
-    <td>以GitBook的方式写博客，博客中涉及docker、js、Python</td>
-    <td><a href="https://www.gitbook.com/book/kxxoling/blog/details">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.the5fire.com">the5fire</a></td>
-    <td>现搜狐Pythonista，博客中记录了从博主从Python新手到Pythonista的文章、Python技巧、职场心得等</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://www.vimer.cn/">vimer</a></td>
-    <td>一个vim党，现在从事Python游戏开发方面，博客中有关于游戏开发、架构、性能方面的项目和文章</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://blog.xiayf.cn/">黑•白</a></td>
-    <td>现百度Pythonista，<i class="serif">requests</i> 项目贡献者之一，博客中涉及Go、PHP、Python等方面的技术</td>
-    <td><a href="http://blog.xiayf.cn/pages/aboutme.html">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://shell909090.org/">Shell</a></td>
-    <td>现七牛Pythonista，<i class="serif">goproxy</i> 作者，现在在写<a href="https://github.com/shell909090/learn-python">开放式python教程</a>，博客中涉及Go、Python等方面的技术</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://xiaoxia.org/">小虾</a></td>
-    <td>从事Python搜索方面工作的Pythonista，博客中有关于python在搜索方面实践的项目和文章</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><a href="http://www.dongwm.com/">小明明</a></td>
-    <td>现豆瓣Pythonista，《Python Web开发实战》的作者，博客中有很多python的技巧。</td>
-    <td><a href="http://www.dongwm.com/aboutme/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://www.zlovezl.cn/">piglei</a></td>
-    <td>现腾讯Pythonista，最近不怎么更新博客了。。。</td>
-    <td><a href="http://www.zlovezl.cn/about/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://www.wklken.me/">wklken</a></td>
-    <td>Pythonista、vim党、GitHub上活跃用户（最近博客、GitHub都没什么更新了），博客内容包含Python基础、进阶、源码、技巧等方面</td>
-    <td><a href="http://www.wklken.me/pages/aboutme.html">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://laike9m.com/blog/">laike9m</a></td>
-    <td>现Google中国 Pythoner</td>
-    <td><a href="https://laike9m.com/blog/about/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://guoze.me/">谁是2shou</a></td>
-    <td>现腾讯Pythonista，博客内容包含Python技巧、数据等方面</td>
-    <td><a href="http://guoze.me/about/">about</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://xiaorui.cc/">峰云就她了</a></td>
-    <td>Pythonista，博客中的内容包含运维自动化、Python库、Python技巧等方方面面</td>
-    <td></td>
-  </tr>
+  {% endfor %}
   </tbody>
 </table>
 
@@ -166,6 +46,7 @@
 <ol>
     <li><a href="https://github.com/pallets/flask">flask</a></li>
     <li><a href="https://github.com/sofish/typo.css">typo.css</a></li>
+    <li><a href="https://github.com/coleifer/peewee">peewee</a></li>
 </ol>
 
 <p><i class="serif">PyHub</i> 基于 <a href="http://zh.wikipedia.org/wiki/MIT_License">MIT License</a> 开源，使用代码只需说明来源</p>
