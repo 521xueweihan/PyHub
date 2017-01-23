@@ -4,11 +4,10 @@
 #   Author  :   XueWeiHan
 #   Date    :   16/9/30 下午11:05
 #   Desc    :   数据层
-import uuid
 from datetime import datetime
 
 from peewee import Model, SqliteDatabase, CharField, TextField, \
-    DateTimeField, IntegerField, UUIDField
+    DateTimeField, IntegerField, UUIDField, FloatField
 
 from config import DATABASE_PATH
 database = SqliteDatabase(DATABASE_PATH)
@@ -23,6 +22,7 @@ class Blog(BaseModel):
     blog_id = UUIDField(unique=True)
     name = CharField(unique=True)
     url = CharField(unique=True)
+    network = FloatField(default=0.0)
     description = TextField()
     create_time = DateTimeField(default=datetime.now)
     update_time = DateTimeField(default=datetime.now)

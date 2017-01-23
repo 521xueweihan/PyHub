@@ -10,3 +10,5 @@ DEBUG = True
 DATABASE_PATH = path.join(path.dirname(__file__), 'blog.db')
 SECRET_KEY = '2-123-102opi1po2i'
 STATIC_PATH = path.join(path.dirname(__file__), 'static')
+LOG_FILENAME = 'pyhub.log'
+PASSWORD = '1'
