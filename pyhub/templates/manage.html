@@ -32,6 +32,7 @@
     <th>Blog</th>
     <th>Info</th>
     <th>Status</th>
+    <th>Network</th>
     <th>Edit</th>
   </tr>
   </thead>
@@ -53,6 +54,7 @@
             </a>
         </td>
       {% endif %}
+    <td> {{ blog.network }} </td>
     <td>
         <span class="serif">
         <a href="/manage/update/{{ blog.blog_id }}">Update</a>

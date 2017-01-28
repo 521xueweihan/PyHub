@@ -26,8 +26,8 @@ def get_load_time():
         all_blog = Blog.select()
         for blog in all_blog:
             try:
-                speed = requests.get(blog.url, timeout=5).elapsed.total_seconds()
-                blog.network = speed
+                speed_seconds = requests.get(blog.url, timeout=5).elapsed.total_seconds()
+                blog.network = speed_seconds
                 blog.save()
             except Exception:
                 logger.error('Timeout: name|%s|url|%s' % (blog.name, blog.url))
