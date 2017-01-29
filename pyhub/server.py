@@ -12,12 +12,14 @@ from logging.handlers import RotatingFileHandler
 
 from peewee import fn, IntegrityError
 from playhouse.flask_utils import FlaskDB
-from flask import Flask, render_template, redirect, request, flash, abort
+from flask import Flask, render_template, redirect, request, flash, abort,\
+    session
+from flask.sessions import SecureCookieSessionInterface
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField
 from wtforms.validators import InputRequired, URL
 from wtforms.widgets import TextArea
-from config import DEBUG, SECRET_KEY, STATIC_PATH, LOG_FILENAME, PASSWORD
+from config import DEBUG, SECRET_KEY, STATIC_PATH, LOG_FILENAME, PASSWORD, SESSION_COOKIE_SECURE
 
 from model import Blog, database
 
@@ -26,6 +28,9 @@ app = Flask(__name__)
 app.static_folder = STATIC_PATH
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
+app.session_cookie_secure = SESSION_COOKIE_SECURE
+app.session_interface = SecureCookieSessionInterface()
+
 csrf = CSRFProtect()
 csrf.init_app(app)
 FlaskDB(app, database)
@@ -44,7 +49,7 @@ class BlogForm(FlaskForm):
 def login(f):
     @functools.wraps(f)
     def warp_fun(*args, **kwargs):
-        if PASSWORD != request.values.get('password'):
+        if PASSWORD != session.get('password'):
             abort(404)
         else:
             return f(*args, **kwargs)
@@ -60,6 +65,8 @@ def page_not_found(e):
 def home():
     all_blog = Blog.select().where(Blog.status == 1).order_by(fn.Random())
     app.logger.info('get blog total|%s' % len(all_blog))
+    if request.values.get('password') == PASSWORD:
+        session['password'] = PASSWORD
     return render_template('blog.html', blogs=all_blog)
 
 
