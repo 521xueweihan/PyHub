@@ -1,5 +1,5 @@
 # PyHub
-Python技术资源、信息的一个导航页，还在开发中。。。
+Python技术资源、信息的一个导航页。
 
 http://pyhub.xueweihan.com
 
