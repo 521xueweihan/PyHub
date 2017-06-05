@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# 
+#
 #   Author  :   XueWeiHan
 #   Date    :   16/9/30 下午11:05
 #   Desc    :   数据层
@@ -9,13 +9,7 @@ from datetime import datetime
 from peewee import Model, SqliteDatabase, CharField, TextField, \
     DateTimeField, IntegerField, UUIDField, FloatField
 
-from config import DATABASE_PATH
-database = SqliteDatabase(DATABASE_PATH)
-
-
-class BaseModel(Model):
-    class Meta:
-        database = database
+from models.base import BaseModel, database
 
 
 class Blog(BaseModel):
